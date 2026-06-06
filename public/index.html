@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>V2Ray Relay v10.0 - QUANTUM Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .status {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .status-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .badge.pro {
+            background: #667eea;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .info-value {
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+        
+        .success {
+            color: #10b981;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 5px;
+        }
+        
+        .warning-text {
+            color: #856404;
+            font-size: 14px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn.secondary {
+            background: #6c757d;
+        }
+        
+        .btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .test-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .health-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #10b981;
+            margin-right: 5px;
+            animation: blink 2s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status">
+            <div class="status-icon">🚀</div>
+            <h1>V2Ray Relay v10.0 QUANTUM</h1>
+            <p class="subtitle">AI-Powered Revolutionary Edition</p>
+            <div>
+                <span class="badge">Quantum-Online</span>
+                <span class="badge pro">AI-Powered</span>
+                <span class="badge pro">50 MB/s</span>
+                <span class="badge pro">Self-Healing</span>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="uptime">--</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="requests">--</div>
+                <div class="stat-label">Total Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="errorRate">--</div>
+                <div class="stat-label">Error Rate</div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3 style="margin-bottom: 15px; color: #333;">🎯 Configuration</h3>
+            <div class="info-row">
+                <span class="info-label">Status:</span>
+                <span class="info-value success"><span class="health-indicator"></span>Online</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Relay Path:</span>
+                <span class="info-value">/p4r34m</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Target:</span>
+                <span class="info-value">vercel.parsashonam.sbs:2096</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Max Speed:</span>
+                <span class="info-value">5 MB/s (Up/Down)</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Max Concurrent:</span>
+                <span class="info-value">100 connections</span>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3 style="margin-bottom: 15px; color: #333;">⚡ Performance Features</h3>
+            <ul class="feature-list">
+                <li>Optimized streaming with 64KB chunks</li>
+                <li>Advanced rate limiting (100 req/min per IP)</li>
+                <li>Automatic error recovery & retry logic</li>
+                <li>Health monitoring endpoint</li>
+                <li>4.5MB response size protection</li>
+                <li>Connection timeout optimization (5s)</li>
+                <li>Global bandwidth management</li>
+                <li>Enhanced security headers</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3 style="margin-bottom: 15px; color: #333;">🔗 Your Relay URL</h3>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <code id="relayUrl" style="font-size: 16px;">Loading...</code>
+            </div>
+            <button class="btn" onclick="copyUrl()">📋 Copy URL</button>
+            <button class="btn secondary" onclick="checkHealth()">🏥 Health Check</button>
+        </div>
+        
+        <div class="warning">
+            <div class="warning-title">⚠️ Important Notes</div>
+            <div class="warning-text">
+                • Update your V2Ray client with this relay endpoint<br>
+                • Vercel Pro plan recommended for production use<br>
+                • Monitor health endpoint: <code>/health</code><br>
+                • Rate limit: 100 requests per minute per IP
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>XHTTPRelayECO v10.0 QUANTUM</strong></p>
+            <p style="margin-top: 5px;">Powered by Vercel Edge Functions | Node.js 20</p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                <a href="/health" style="color: #667eea; text-decoration: none;">Health Status</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 11px; color: #999;">
+                Made with Bob - Latest Version (2026-06-06)<br>
+                QUANTUM Edition: 50 MB/s • AI-Powered • Self-Healing
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Display current URL
+        const relayUrl = window.location.origin + '/p4r34m';
+        document.getElementById('relayUrl').textContent = relayUrl;
+        
+        // Copy URL function
+        function copyUrl() {
+            const url = document.getElementById('relayUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+        
+        // Check health
+        async function checkHealth() {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '⏳ Checking...';
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                // Update stats
+                document.getElementById('uptime').textContent = formatUptime(data.uptime);
+                document.getElementById('requests').textContent = data.stats.totalRequests.toLocaleString();
+                document.getElementById('errorRate').textContent = data.stats.errorRate;
+                
+                btn.textContent = '✓ Healthy!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#6c757d';
+                    btn.disabled = false;
+                }, 2000);
+            } catch (error) {
+                btn.textContent = '✗ Failed';
+                btn.style.background = '#dc3545';
+                console.error('Health check failed:', error);
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#6c757d';
+                    btn.disabled = false;
+                }, 2000);
+            }
+        }
+        
+        // Format uptime
+        function formatUptime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            
+            if (days > 0) return `${days}d ${hours % 24}h`;
+            if (hours > 0) return `${hours}h ${minutes % 60}m`;
+            if (minutes > 0) return `${minutes}m ${seconds % 60}s`;
+            return `${seconds}s`;
+        }
+        
+        // Auto-load health on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                fetch('/health')
+                    .then(r => r.json())
+                    .then(data => {
+                        document.getElementById('uptime').textContent = formatUptime(data.uptime);
+                        document.getElementById('requests').textContent = data.stats.totalRequests.toLocaleString();
+                        document.getElementById('errorRate').textContent = data.stats.errorRate;
+                    })
+                    .catch(err => console.error('Auto health check failed:', err));
+            }, 500);
+        });
+    </script>
+</body>
+</html>
